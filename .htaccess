@@ -1,0 +1,46 @@
+RewriteEngine on 
+
+Options -Indexes 
+DirectoryIndex index.php first.html index.htm index.html  dashboard.php
+
+
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([^\.]+)$ $1.php [NC,L]
+
+# assest 
+RewriteRule ^assets/(.*)$ assets/$1$2
+RewriteRule ^js/control/(.*)$ apps/controls/$1
+
+RewriteRule ^home home/
+RewriteRule ^home/(.*)$ apps/views/$1$2$3 
+
+RewriteRule ^data/(.*)$ apps/models/$1$2
+RewriteRule ^model/(.*)$ apps/models/$1$2
+RewriteRule ^controller/(.*)$ apps/controls/$1$2
+
+#redirect login
+RewriteRUle ^auth login/
+RewriteRUle ^register login/register
+RewriteRUle ^auth/(.*)$ login/$1
+RewriteRUle ^forgot login/reset_password
+RewriteRUle ^logout login/authentication?request=logout
+
+
+#redirect error
+RewriteRule ^error/(.*) errors/$1
+
+#LOAD DATA IN FOLDER MODEL
+RewriteRule ^site/data/(.*) apps/models/$1
+#page not found
+ErrorDocument 400 /theme/error/400
+ErrorDocument 403 /theme/error/403
+ErrorDocument 404 /theme/error/404
+ErrorDocument 500 /theme/error/500
+ErrorDocument 503 /theme/error/503
+
+#RewriteCond %{HTTP_HOST} ^\.com$ [OR]
+#RewriteCond %{HTTP_HOST} ^www\.gubukprogram\.com$
+#RewriteRule ^/?$ "http\:\/\/localhost\.com\/" [R=301,L]
+
